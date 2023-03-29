@@ -18,9 +18,19 @@ class AccountController {
       });
   }
   login(req, res) {
-    res.json({
-      Login: "handleLogin",
-    });
+    const data = req.body.data;
+    Account.findOne({ username: data.username, password: data.password })
+      .then((account) => {
+        if (account) {
+          res.status(200).send(true);
+        } else {
+          res.status(400).send(false);
+        }
+      })
+
+      .catch((err) => {
+        console.log("Server error");
+      });
   }
 
   handleValidator(req, res) {
